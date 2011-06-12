@@ -10,7 +10,7 @@ require 'tempfile'
 #   grabbing existing agents
 #   connecting to them
 #   forwarding calls to the wrapped agent
-class MyAgent
+class RBX::Agent
 
   attr_reader :pid, :port, :command, :path
 
