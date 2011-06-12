@@ -11,31 +11,35 @@ module RBXPerf
 
   class HeapAnalysis
     attr_accessor :source
-    attr_reader :counts_constants
+    attr_reader :constants_stats
 
     # source is a rubinius heap dump analysis
     def initialize source
       @source = source
-      @counts_constants = {}
+      @constants_stats = []
     end
 
     def to_json
-      self.counts_constants.to_json
+      JSON.pretty_generate(self.constants_stats)
     end
 
     def parse
       @source.each { |line|
         line = line.squeeze ' '
         words = line.split ' '
-        # 0: object count, 1: class name, :2 object mem
+        # 0: object count, 1: constant name, :2 object mem
         # like
         #   25241 Rubinius::Tuple 4396152
-        @counts_constants[words[1]] = {:count => words[0], :mem => words[2]}
+        @constants_stats << {
+          :constant_name => words[1],
+          :count         => words[0],
+          :mem           => words[2],
+        }
       }
     end
 
     def constants
-      @counts_constants.keys
+      @constants_stats.map {|stats| stats[:constant_name]}
     end
 
   end

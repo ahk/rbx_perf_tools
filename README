@@ -5,6 +5,5 @@ Things that live here:
   - trying out with raphael
 
 TODO:
-  - heap dump analyzer output -> JSON
   - automate heap dump stamping and diffing
   - do something cute with it 
